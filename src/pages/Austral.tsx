@@ -12,6 +12,7 @@ const Index = () => {
             <span>Austral</span>
           </a>
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
+            <a href="/" className="hover:text-foreground transition">Meridional</a>
             <a href="#tutorial" className="hover:text-foreground transition">Tutorial</a>
             <a href="#types" className="hover:text-foreground transition">Linear Types</a>
             <a href="#benefits" className="hover:text-foreground transition">Benefícios</a>
