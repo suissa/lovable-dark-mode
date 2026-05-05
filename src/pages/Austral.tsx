@@ -70,6 +70,19 @@ function writeString(file: File, content: String): File;
 function closeFile(file: File): Unit;`}
           />
 
+          <figure className="my-8 p-6 rounded-xl border border-border bg-card/40 backdrop-blur">
+            <img
+              src="https://austral-lang.org/assets/spec/file-api.svg"
+              alt="Grafo do ciclo de vida correto da API de File"
+              className="w-full max-w-xl mx-auto"
+              style={{ filter: "invert(0.92) hue-rotate(180deg)" }}
+              loading="lazy"
+            />
+            <figcaption className="text-xs text-center text-muted-foreground mt-3 font-mono">
+              ciclo de vida correto: openFile → writeString* → closeFile
+            </figcaption>
+          </figure>
+
           <p className="text-muted-foreground leading-relaxed mb-6">
             Um programador experiente entende o <em>ciclo de vida implícito</em> do objeto <code className="px-1.5 py-0.5 rounded bg-secondary text-accent text-sm">File</code>:
           </p>
