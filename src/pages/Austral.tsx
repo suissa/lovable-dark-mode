@@ -182,9 +182,37 @@ let f_15: File! := writeString(f_14, "You must change your life.");
 closeFile(f_15);`}
           />
 
+          <div className="grid md:grid-cols-2 gap-4 my-8">
+            <figure className="p-4 rounded-xl border border-border bg-card/40">
+              <img
+                src="https://austral-lang.org/assets/spec/file-api-without-leaks.svg"
+                alt="Grafo sem leaks"
+                className="w-full"
+                style={{ filter: "invert(0.92) hue-rotate(180deg)" }}
+                loading="lazy"
+              />
+              <figcaption className="text-xs text-center text-muted-foreground mt-2 font-mono">
+                leaks eliminados
+              </figcaption>
+            </figure>
+            <figure className="p-4 rounded-xl border border-border bg-card/40">
+              <img
+                src="https://austral-lang.org/assets/spec/file-api-without-leaks-and-double-close.svg"
+                alt="Grafo sem leaks e sem double close"
+                className="w-full"
+                style={{ filter: "invert(0.92) hue-rotate(180deg)" }}
+                loading="lazy"
+              />
+              <figcaption className="text-xs text-center text-muted-foreground mt-2 font-mono">
+                double-close eliminado
+              </figcaption>
+            </figure>
+          </div>
+
           <p className="text-muted-foreground leading-relaxed">
             O valor do arquivo é <em>encadeado</em> pelo código, e cada variável linear é
-            usada exatamente uma vez.
+            usada exatamente uma vez. O ciclo de vida que o compilador impõe é exatamente
+            aquele que pretendíamos.
           </p>
 
           <h3 className="text-2xl font-semibold mt-12 mb-4">Generaliza? Sim — banco de dados:</h3>
