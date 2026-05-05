@@ -10,51 +10,53 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 230 25% 6%;
+    --foreground: 210 40% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 230 22% 9%;
+    --card-foreground: 210 40% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 230 22% 9%;
+    --popover-foreground: 210 40% 96%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 280 90% 65%;
+    --primary-foreground: 230 25% 6%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 230 18% 14%;
+    --secondary-foreground: 210 40% 96%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 230 18% 12%;
+    --muted-foreground: 220 12% 60%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 175 80% 55%;
+    --accent-foreground: 230 25% 6%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 75% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 230 20% 16%;
+    --input: 230 20% 16%;
+    --ring: 280 90% 65%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* VS Code-like editor tokens */
+    --editor-bg: 220 16% 11%;
+    --editor-titlebar: 220 14% 14%;
+    --editor-sidebar: 220 14% 13%;
+    --editor-line: 220 12% 35%;
+    --editor-text: 220 14% 86%;
+    --syntax-keyword: 280 80% 72%;
+    --syntax-type: 175 75% 60%;
+    --syntax-function: 50 90% 68%;
+    --syntax-string: 25 85% 70%;
+    --syntax-comment: 220 10% 45%;
+    --syntax-number: 145 60% 65%;
+    --syntax-punct: 220 14% 70%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --gradient-hero: linear-gradient(135deg, hsl(280 90% 65% / 0.25), hsl(175 80% 55% / 0.15));
+    --gradient-text: linear-gradient(135deg, hsl(280 90% 75%), hsl(175 80% 65%));
+    --shadow-glow: 0 20px 80px -20px hsl(280 90% 65% / 0.45);
   }
 
   .dark {
