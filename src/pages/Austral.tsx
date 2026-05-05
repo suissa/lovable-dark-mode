@@ -96,6 +96,19 @@ function closeFile(file: File): Unit;`}
             Mas, crucialmente: esse ciclo de vida <strong className="text-foreground">não é imposto pelo compilador</strong>. Existem transições erradas perfeitamente possíveis:
           </p>
 
+          <figure className="my-8 p-6 rounded-xl border border-destructive/30 bg-destructive/5 backdrop-blur">
+            <img
+              src="https://austral-lang.org/assets/spec/file-api-errors.svg"
+              alt="Grafo com transições erradas: leak, double close, use after close"
+              className="w-full max-w-xl mx-auto"
+              style={{ filter: "invert(0.92) hue-rotate(180deg)" }}
+              loading="lazy"
+            />
+            <figcaption className="text-xs text-center text-muted-foreground mt-3 font-mono">
+              transições erradas em vermelho: leak, double close, use-after-close
+            </figcaption>
+          </figure>
+
           <h3 className="text-xl font-semibold mt-10 mb-3 text-destructive">Vazamentos (Leaks)</h3>
           <p className="text-muted-foreground mb-4">Esquecer de chamar <code className="px-1.5 py-0.5 rounded bg-secondary text-accent text-sm">closeFile</code>:</p>
           <CodeBlock
