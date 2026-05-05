@@ -1,5 +1,6 @@
 import { CodeBlock } from "@/components/CodeBlock";
-import { ArrowRight, Shield, Zap, Lock, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Package, Lock, Zap, GitBranch, Terminal, Boxes, Sparkles, Compass } from "lucide-react";
 
 const Index = () => {
   return (
@@ -8,14 +9,15 @@ const Index = () => {
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border">
         <div className="container mx-auto flex items-center justify-between py-4">
           <a href="#" className="flex items-center gap-2 font-bold text-lg">
-            <span className="w-7 h-7 rounded-md bg-gradient-to-br from-primary to-accent" />
-            <span>Austral</span>
+            <Compass className="w-7 h-7 text-accent" />
+            <span>Meridional</span>
           </a>
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-            <a href="#tutorial" className="hover:text-foreground transition">Tutorial</a>
-            <a href="#types" className="hover:text-foreground transition">Linear Types</a>
-            <a href="#benefits" className="hover:text-foreground transition">Benefícios</a>
-            <a href="https://austral-lang.org" className="hover:text-foreground transition">Docs ↗</a>
+            <a href="#install" className="hover:text-foreground transition">Instalação</a>
+            <a href="#commands" className="hover:text-foreground transition">Comandos</a>
+            <a href="#manifest" className="hover:text-foreground transition">Manifesto</a>
+            <a href="#features" className="hover:text-foreground transition">Recursos</a>
+            <Link to="/austral" className="hover:text-foreground transition">Austral ↗</Link>
           </nav>
         </div>
       </header>
@@ -26,186 +28,146 @@ const Index = () => {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-card/50 text-xs font-mono text-muted-foreground mb-6">
               <Sparkles className="w-3 h-3 text-accent" />
-              tutorial / linear-types
+              package manager · austral lang
             </div>
             <h1 className="text-5xl md:text-7xl font-bold leading-[1.05] mb-6">
-              <span className="gradient-text">Linear Types</span>
+              <span className="gradient-text">Meridional</span>
               <br />
-              em Austral
+              o package manager da Austral
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
-              Uma forma <em>estática</em> e <em>completa</em> de garantir que recursos
-              sejam usados no ciclo de vida correto — sem garbage collector, sem vazamentos,
-              sem use-after-free.
+              Builds <em>reprodutíveis</em>, dependências <em>tipadas linearmente</em> e um
+              registry descentralizado. Pensado desde o primeiro commit para a segurança de
+              capabilities da linguagem Austral.
             </p>
             <div className="flex flex-wrap gap-3 mt-8">
-              <a href="#types" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition">
-                Começar tutorial <ArrowRight className="w-4 h-4" />
+              <a href="#install" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition">
+                Instalar agora <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="#benefits" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border hover:bg-card transition">
-                Ver benefícios
-              </a>
+              <Link to="/austral" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border hover:bg-card transition">
+                Sobre Austral
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       <main className="container mx-auto max-w-4xl pb-32">
-        {/* Resources & Lifecycles */}
-        <section id="tutorial" className="py-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Recursos e Ciclos de Vida</h2>
+        {/* Install */}
+        <section id="install" className="py-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 flex items-center gap-3">
+            <Terminal className="w-8 h-8 text-accent" /> Instalação
+          </h2>
           <p className="text-muted-foreground leading-relaxed mb-6">
-            Considere uma API de manipulação de arquivos:
-          </p>
-
-          <CodeBlock
-            filename="file-api.aus"
-            code={`type File;
-
-function openFile(path: String): File;
-
-function writeString(file: File, content: String): File;
-
-function closeFile(file: File): Unit;`}
-          />
-
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            Um programador experiente entende o <em>ciclo de vida implícito</em> do objeto <code className="px-1.5 py-0.5 rounded bg-secondary text-accent text-sm">File</code>:
-          </p>
-          <ol className="list-decimal list-inside space-y-2 text-muted-foreground mb-6 pl-2">
-            <li>Criamos um handle <code className="px-1.5 py-0.5 rounded bg-secondary text-accent text-sm">File</code> chamando <code className="px-1.5 py-0.5 rounded bg-secondary text-accent text-sm">openFile</code>.</li>
-            <li>Escrevemos no handle zero ou mais vezes.</li>
-            <li>Fechamos o arquivo chamando <code className="px-1.5 py-0.5 rounded bg-secondary text-accent text-sm">closeFile</code>.</li>
-          </ol>
-
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            Mas, crucialmente: esse ciclo de vida <strong className="text-foreground">não é imposto pelo compilador</strong>. Existem transições erradas perfeitamente possíveis:
-          </p>
-
-          <h3 className="text-xl font-semibold mt-10 mb-3 text-destructive">Vazamentos (Leaks)</h3>
-          <p className="text-muted-foreground mb-4">Esquecer de chamar <code className="px-1.5 py-0.5 rounded bg-secondary text-accent text-sm">closeFile</code>:</p>
-          <CodeBlock
-            filename="leak.aus"
-            code={`let file: File = openFile("hello.txt");
-writeString(file, "Hello, world!");
--- Esqueceu de fechar`}
-          />
-
-          <h3 className="text-xl font-semibold mt-10 mb-3 text-destructive">Use-After-Close</h3>
-          <p className="text-muted-foreground mb-4">Chamar <code className="px-1.5 py-0.5 rounded bg-secondary text-accent text-sm">writeString</code> em um arquivo já fechado:</p>
-          <CodeBlock
-            filename="use-after-close.aus"
-            code={`closeFile(file);
-writeString(file, "Goodbye, world!");`}
-          />
-
-          <p className="text-muted-foreground mb-4">Ou fechar duas vezes:</p>
-          <CodeBlock
-            filename="double-close.aus"
-            code={`closeFile(file);
-closeFile(file);`}
-          />
-
-          <p className="text-muted-foreground leading-relaxed">
-            No contexto de gerenciamento de memória, esses erros são tão desastrosos que têm
-            nomes próprios: <strong className="text-foreground">double free</strong> e{" "}
-            <strong className="text-foreground">use-after-free</strong>.
-          </p>
-        </section>
-
-        {/* What linear types are */}
-        <section id="types" className="py-12 border-t border-border">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">O que são Linear Types</h2>
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            Vamos considerar uma API de arquivos linear. Tipos lineares são denotados por
-            uma exclamação após o nome:
-          </p>
-
-          <CodeBlock
-            filename="linear-file.aus"
-            code={`type File!;
-
-function openFile(path: String): File!;
-
-function writeString(file: File!, content: String): File!;
-
-function closeFile(file: File!): Unit;`}
-          />
-
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            Podemos vazar um <code className="px-1.5 py-0.5 rounded bg-secondary text-accent text-sm">File!</code>? Não:
+            Um único binário estático, sem runtime. Instala-se em segundos:
           </p>
           <CodeBlock
-            filename="cannot-leak.aus"
-            code={`let file: File! := openFile("sonnets.txt");
--- Não fazer nada.`}
-          />
+            filename="install.sh"
+            language="bash"
+            code={`curl -sSL https://meridional.austral-lang.org/install | sh
 
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            O compilador reclama: a variável <code className="px-1.5 py-0.5 rounded bg-secondary text-accent text-sm">file</code> é usada zero vezes.
-            Existe uma e somente uma forma de usar essa API sem o compilador reclamar:
-          </p>
-
-          <CodeBlock
-            filename="correct-usage.aus"
-            code={`let f: File! := openFile("rilke.txt");
-let f_1: File! := writeString(f, "We cannot know his legendary head\\n");
-let f_2: File! := writeString(f_1, "with eyes like ripening fruit. And yet his torso\\n");
-let f_15: File! := writeString(f_14, "You must change your life.");
-closeFile(f_15);`}
-          />
-
-          <p className="text-muted-foreground leading-relaxed">
-            O valor do arquivo é <em>encadeado</em> pelo código, e cada variável linear é
-            usada exatamente uma vez.
-          </p>
-
-          <h3 className="text-2xl font-semibold mt-12 mb-4">Generaliza? Sim — banco de dados:</h3>
-          <CodeBlock
-            filename="linear-db.aus"
-            code={`type Db!;
-
-function connect(host: String): Db!;
-
-function query(db: Db!, query: String): Pair[Db!, Rows];
-
-function close(db: Db!) : Unit;`}
-          />
-
-          <p className="text-muted-foreground mb-4">A única forma correta de usar:</p>
-          <CodeBlock
-            filename="db-usage.aus"
-            code={`let db: Db! := connect("localhost");
-let (db1, rows): Pair[Db!, Rows] := query(db, "SELECT ...");
--- Itera sobre as linhas.
-close(db1);`}
+meridional --version
+-- meridional 0.4.2 (austral 1.0)`}
           />
         </section>
 
-        {/* Benefits */}
-        <section id="benefits" className="py-12 border-t border-border">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8">O que Linear Types oferecem</h2>
+        {/* Commands */}
+        <section id="commands" className="py-12 border-t border-border">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 flex items-center gap-3">
+            <GitBranch className="w-8 h-8 text-accent" /> Fluxo de comandos
+          </h2>
+          <p className="text-muted-foreground leading-relaxed mb-6">
+            Iniciando um projeto novo, adicionando dependências e compilando:
+          </p>
+          <CodeBlock
+            filename="workflow.sh"
+            language="bash"
+            code={`meridional new my-app
+cd my-app
+
+meridional add stdlib@1.0
+meridional add net.linear-sockets@0.3
+
+meridional build      -- compila com checagem linear
+meridional test       -- roda os testes
+meridional publish    -- publica no registry`}
+          />
+        </section>
+
+        {/* Manifest */}
+        <section id="manifest" className="py-12 border-t border-border">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 flex items-center gap-3">
+            <Package className="w-8 h-8 text-accent" /> O manifesto Meridional.toml
+          </h2>
+          <p className="text-muted-foreground leading-relaxed mb-6">
+            Cada pacote declara suas dependências e — diferencial do Meridional — as
+            <strong className="text-foreground"> capabilities </strong> que precisa do
+            ambiente:
+          </p>
+          <CodeBlock
+            filename="Meridional.toml"
+            language="toml"
+            code={`[package]
+name        = "my-app"
+version     = "0.1.0"
+austral     = "1.0"
+authors     = ["you@austral.dev"]
+
+[dependencies]
+stdlib              = "1.0"
+"net.linear-sockets" = "0.3"
+"db.postgres"        = { version = "2.1", features = ["tls"] }
+
+[capabilities]
+-- recursos lineares que o programa pode pedir
+filesystem = "read"
+network    = "tcp"
+terminal   = true`}
+          />
+
+          <p className="text-muted-foreground leading-relaxed mt-6 mb-4">
+            E o lockfile é determinístico — o mesmo input gera o mesmo grafo:
+          </p>
+          <CodeBlock
+            filename="Meridional.lock"
+            language="toml"
+            code={`# auto-gerado por meridional
+[[package]]
+name    = "stdlib"
+version = "1.0.7"
+hash    = "blake3:9c1d…f0e2"
+
+[[package]]
+name    = "net.linear-sockets"
+version = "0.3.4"
+hash    = "blake3:4a77…b8c1"`}
+          />
+        </section>
+
+        {/* Features */}
+        <section id="features" className="py-12 border-t border-border">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8">Por que Meridional</h2>
           <div className="grid md:grid-cols-2 gap-5">
             {[
               {
-                icon: Shield,
-                title: "Memória sem GC",
-                desc: "Gerenciamento manual sem leaks, use-after-free ou double free — zero overhead em tempo ou espaço.",
+                icon: Lock,
+                title: "Capabilities no manifesto",
+                desc: "O package manager respeita o sistema linear de capabilities da Austral — uma dependência só recebe o que você declarou.",
               },
               {
-                icon: Lock,
-                title: "Recursos seguros",
-                desc: "Qualquer recurso com ciclo de vida (arquivos, sockets) gerenciado estaticamente, sem erros.",
+                icon: Boxes,
+                title: "Builds reprodutíveis",
+                desc: "Lockfile com hashes blake3, sandbox de build hermético. O mesmo commit produz o mesmo binário em qualquer máquina.",
               },
               {
                 icon: Zap,
-                title: "Otimização in-place",
-                desc: "Código com aparência funcional, mas com mutação real por baixo. Performance imperativa, raciocínio funcional.",
+                title: "Compilação incremental",
+                desc: "Cache por unidade de compilação ligado à árvore de tipos lineares — recompila só o estritamente necessário.",
               },
               {
-                icon: Sparkles,
-                title: "Concorrência segura",
-                desc: "Um valor linear tem um único dono — impossível ter múltiplos donos entre threads.",
+                icon: GitBranch,
+                title: "Registry federado",
+                desc: "Publique em meridional.austral-lang.org ou rode seu próprio mirror. Resolução de versões com SemVer estrito.",
               },
             ].map(({ icon: Icon, title, desc }) => (
               <div
@@ -221,11 +183,25 @@ close(db1);`}
             ))}
           </div>
         </section>
+
+        {/* CTA Austral */}
+        <section className="py-16 border-t border-border">
+          <div className="rounded-2xl p-8 md:p-12 border border-border bg-gradient-to-br from-primary/10 to-accent/10">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Novo na linguagem Austral?</h2>
+            <p className="text-muted-foreground mb-6 max-w-2xl">
+              Meridional foi desenhado em torno do sistema de Linear Types da Austral. Leia o
+              tutorial para entender o modelo que torna tudo isso possível.
+            </p>
+            <Link to="/austral" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-foreground text-background font-medium hover:opacity-90 transition">
+              Ler tutorial Austral <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </section>
       </main>
 
       <footer className="border-t border-border py-8">
         <div className="container mx-auto text-center text-sm text-muted-foreground">
-          Recriação do tutorial <a className="text-accent hover:underline" href="https://austral-lang.org/tutorial/linear-types">austral-lang.org/tutorial/linear-types</a>
+          Meridional · package manager para <Link className="text-accent hover:underline" to="/austral">Austral</Link>
         </div>
       </footer>
     </div>
